@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Software Compiler</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">AC</span>
+          <div>
+            <h1>AI Software Compiler</h1>
+            <p>Prompt to validated project</p>
+          </div>
+        </div>
+
+        <section class="control-block">
+          <label for="mode">Mode</label>
+          <select id="mode">
+            <option value="web-app">Web app</option>
+            <option value="internal-tool">Internal tool</option>
+            <option value="dashboard">Dashboard</option>
+          </select>
+        </section>
+
+        <section class="control-block">
+          <label for="strictness">Validation</label>
+          <select id="strictness">
+            <option value="balanced">Balanced</option>
+            <option value="strict">Strict</option>
+            <option value="fast">Fast</option>
+          </select>
+        </section>
+
+        <section class="sample-block">
+          <h2>Samples</h2>
+          <button class="sample" data-prompt="Build a CRM with login, contacts, dashboard, role-based access, premium plans with payments, and admin analytics.">CRM with payments</button>
+          <button class="sample" data-prompt="Create an analytics dashboard for subscription KPIs, alerts, segments, weekly reports, and viewer/admin roles.">KPI dashboard</button>
+          <button class="sample" data-prompt="Generate an e-commerce store with products, cart, checkout, orders, support role, and admin inventory.">E-commerce store</button>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Compiler pipeline</p>
+            <h2>Generate a project blueprint and executable file set</h2>
+          </div>
+          <button id="downloadBtn" class="ghost-button" disabled>Download output</button>
+        </header>
+
+        <section class="prompt-panel">
+          <textarea id="prompt" spellcheck="true">Build a CRM with login, contacts, dashboard, role-based access, premium plans with payments, and admin analytics.</textarea>
+          <button id="generateBtn" class="primary-button">Generate project</button>
+        </section>
+
+        <section class="status-grid">
+          <article>
+            <span id="statusValue">Idle</span>
+            <p>Status</p>
+          </article>
+          <article>
+            <span id="repairValue">0</span>
+            <p>Repairs</p>
+          </article>
+          <article>
+            <span id="fileValue">0</span>
+            <p>Files</p>
+          </article>
+          <article>
+            <span id="latencyValue">0 ms</span>
+            <p>Latency</p>
+          </article>
+        </section>
+
+        <section class="pipeline" aria-label="Generation pipeline">
+          <div class="stage" data-stage="intent"><strong>1</strong><span>Intent</span></div>
+          <div class="stage" data-stage="schema"><strong>2</strong><span>Schema</span></div>
+          <div class="stage" data-stage="repair"><strong>3</strong><span>Repair</span></div>
+          <div class="stage" data-stage="code"><strong>4</strong><span>Code</span></div>
+          <div class="stage" data-stage="qa"><strong>5</strong><span>QA</span></div>
+        </section>
+
+        <section class="output-grid">
+          <article class="panel">
+            <h3>Intent</h3>
+            <pre id="intentOut">{}</pre>
+          </article>
+          <article class="panel">
+            <h3>Blueprint</h3>
+            <pre id="blueprintOut">{}</pre>
+          </article>
+          <article class="panel wide">
+            <div class="panel-header">
+              <h3>Generated Files</h3>
+              <select id="filePicker"></select>
+            </div>
+            <pre id="fileOut">Generate a project to preview files.</pre>
+          </article>
+          <article class="panel">
+            <h3>Validation Log</h3>
+            <ul id="logOut"></ul>
+          </article>
+        </section>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

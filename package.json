@@ -1,0 +1,17 @@
+{
+  "name": "ai-software-compiler",
+  "version": "1.0.0",
+  "description": "Deterministic software-generation compiler prototype from the uploaded AI Engineer task PDF.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "software-generation",
+    "compiler",
+    "validator",
+    "repair-engine"
+  ],
+  "author": "",
+  "license": "MIT"
+}
