@@ -1,0 +1,26 @@
+{
+  "realWorld": [
+    "Build a CRM with login, contacts, dashboard, role-based access, premium plans with payments, and admin analytics.",
+    "Create an analytics dashboard for subscription KPIs, alerts, segments, weekly reports, and viewer/admin roles.",
+    "Generate an e-commerce store with products, cart, checkout, orders, support role, and admin inventory.",
+    "Build software for schools with student profiles, attendance tracking, fee management, class records, and parent access.",
+    "Create a sales pipeline app for leads, deals, tasks, reporting, and manager approvals.",
+    "Build a reporting portal for metrics, alerts, saved reports, and analyst permissions.",
+    "Generate a customer support admin tool with tickets, users, reports, and role-based permissions.",
+    "Create a lightweight project tracker with projects, activities, reports, and team roles.",
+    "Build an online store with catalog, checkout, payments, admin, and support users.",
+    "Create a KPI monitor with metrics, segments, alert thresholds, and read-only viewers."
+  ],
+  "edgeCases": [
+    "Build a CRM",
+    "Build software for schools",
+    "Make an app",
+    "Create a dashboard but do not include reports and include reports",
+    "Build checkout without products or payments",
+    "Create admin software with no users",
+    "Generate something for finance",
+    "Build a system with unknown roles and no database",
+    "Create e-commerce with only a settings page",
+    ""
+  ]
+}

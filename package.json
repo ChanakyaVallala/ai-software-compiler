@@ -4,7 +4,8 @@
   "description": "Deterministic software-generation compiler prototype from the uploaded AI Engineer task PDF.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "benchmark": "node benchmarks/run-benchmarks.js"
   },
   "keywords": [
     "software-generation",

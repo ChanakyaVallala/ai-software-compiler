@@ -2,6 +2,7 @@ const elements = {
   prompt: document.querySelector("#prompt"),
   mode: document.querySelector("#mode"),
   strictness: document.querySelector("#strictness"),
+  confidenceThreshold: document.querySelector("#confidenceThreshold"),
   generateBtn: document.querySelector("#generateBtn"),
   downloadBtn: document.querySelector("#downloadBtn"),
   statusValue: document.querySelector("#statusValue"),
@@ -10,6 +11,8 @@ const elements = {
   latencyValue: document.querySelector("#latencyValue"),
   intentOut: document.querySelector("#intentOut"),
   blueprintOut: document.querySelector("#blueprintOut"),
+  assumptionsOut: document.querySelector("#assumptionsOut"),
+  runtimeOut: document.querySelector("#runtimeOut"),
   filePicker: document.querySelector("#filePicker"),
   fileOut: document.querySelector("#fileOut"),
   logOut: document.querySelector("#logOut")
@@ -23,7 +26,7 @@ function pretty(value) {
 
 function setStages(status) {
   document.querySelectorAll(".stage").forEach(stage => {
-    stage.classList.toggle("active", status === "ready" || status === "needs_input");
+    stage.classList.toggle("active", status === "ready");
   });
 }
 
@@ -59,8 +62,9 @@ function renderLog(result) {
     messages.push("Schema validation passed.");
   }
 
-  for (const repair of result.repairs || []) messages.push(`Repair: ${repair}`);
-  for (const question of result.clarifyingQuestions || []) messages.push(`Clarify: ${question}`);
+  for (const repair of result.repairs || []) messages.push(`Repair: ${repair.action || repair} (${repair.targetPath || "n/a"})`);
+  for (const question of result.clarifyingQuestions || []) messages.push(`Clarify: ${question.question || question}`);
+  if (result.runtimeReport) messages.push(`Runtime: ${result.runtimeReport.status}`);
 
   for (const message of messages) {
     const item = document.createElement("li");
@@ -74,6 +78,8 @@ function renderResult(result) {
   setStatus(result);
   elements.intentOut.textContent = pretty(result.intent || {});
   elements.blueprintOut.textContent = pretty(result.blueprint || {});
+  elements.assumptionsOut.textContent = pretty(result.assumptions || []);
+  elements.runtimeOut.textContent = pretty(result.runtimeReport || {});
   renderFiles(result.files || []);
   renderLog(result);
   elements.downloadBtn.disabled = !result.files?.length;
@@ -90,7 +96,8 @@ async function generate() {
       body: JSON.stringify({
         prompt: elements.prompt.value,
         mode: elements.mode.value,
-        strictness: elements.strictness.value
+        strictness: elements.strictness.value,
+        confidenceThreshold: Number(elements.confidenceThreshold.value)
       })
     });
     const result = await response.json();
@@ -111,18 +118,19 @@ async function generate() {
   }
 }
 
-function downloadOutput() {
+async function downloadOutput() {
   if (!latestResult) return;
-  const payload = {
-    generatedAt: new Date().toISOString(),
-    blueprint: latestResult.blueprint,
-    files: latestResult.files
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const response = await fetch("/api/export", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(latestResult)
+  });
+  if (!response.ok) return;
+  const blob = await response.blob();
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `${latestResult.blueprint?.appName || "generated-project"}.json`.replace(/\s+/g, "-").toLowerCase();
+  link.download = "generated-project.zip";
   document.body.append(link);
   link.click();
   link.remove();
